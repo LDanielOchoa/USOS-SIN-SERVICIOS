@@ -8,10 +8,11 @@ from time import sleep
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['CELERY_BROKER_URL'] = os.getenv('redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379')  # Usar variable de entorno
-app.config['CELERY_RESULT_BACKEND'] = os.getenv('redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379')  # Usar variable de entorno
+# Usar variable de entorno para la URL de Redis
+app.config['CELERY_BROKER_URL'] = 'redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379'
 
-
+# Inicializar Celery
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
@@ -92,8 +93,12 @@ def upload_files():
     os.makedirs('temp', exist_ok=True)
     servicios_path = os.path.join('temp', servicios_file.filename)
     usos_path = os.path.join('temp', usos_file.filename)
+
+    # Guardar archivos y verificar si se guardan correctamente
     servicios_file.save(servicios_path)
     usos_file.save(usos_path)
+
+    print(f"Archivos guardados: {servicios_path}, {usos_path}")  # Mensaje de depuración
 
     task = process_files.apply_async(args=[servicios_path, usos_path])
 
