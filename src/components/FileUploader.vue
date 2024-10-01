@@ -87,7 +87,7 @@ export default {
       formData.append('usos', this.files.usos);
 
       try {
-        const response = await axios.post('http://localhost:5000/upload', formData);
+        const response = await axios.post('http://sao6.up.railway.app/upload', formData);
         this.taskId = response.data.task_id;
         this.taskStatus = 'PROGRESS'; // Cambiamos el estado a PROGRESS
 
