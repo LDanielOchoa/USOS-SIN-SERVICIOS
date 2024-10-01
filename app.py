@@ -8,8 +8,8 @@ from time import sleep
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['CELERY_BROKER_URL'] = os.getenv('REDIS_URL')  # Usar variable de entorno
-app.config['CELERY_RESULT_BACKEND'] = os.getenv('REDIS_URL')  # Usar variable de entorno
+app.config['CELERY_BROKER_URL'] = os.getenv('redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379')  # Usar variable de entorno
+app.config['CELERY_RESULT_BACKEND'] = os.getenv('redis://default:HsqFHMNwOUoyKxgZJinISnFIeBZozxfA@redis.railway.internal:6379')  # Usar variable de entorno
 
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
