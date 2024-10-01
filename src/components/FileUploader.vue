@@ -87,7 +87,7 @@ export default {
       formData.append('usos', this.files.usos);
 
       try {
-        const response = await axios.post('http://sao66.up.railway.app/upload', formData);
+        const response = await axios.post('https://sao66.up.railway.app/upload', formData);
         this.taskId = response.data.task_id;
         this.taskStatus = 'PROGRESS'; // Cambiamos el estado a PROGRESS
 
@@ -104,7 +104,7 @@ export default {
 
       const intervalId = setInterval(async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/status/${this.taskId}`);
+          const response = await axios.get(`https://sao66.up.railway.app/status/${this.taskId}`);
           this.taskStatus = response.data.state;
 
           // Actualiza la barra de progreso
