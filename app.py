@@ -6,7 +6,7 @@ from celery import Celery
 from time import sleep
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.config['CELERY_BROKER_URL'] = os.getenv('REDIS_URL')  # Usar variable de entorno
 app.config['CELERY_RESULT_BACKEND'] = os.getenv('REDIS_URL')  # Usar variable de entorno
@@ -122,4 +122,5 @@ def download_file(task_id):
         return jsonify({'error': 'Archivo no disponible o el proceso no ha finalizado.'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
